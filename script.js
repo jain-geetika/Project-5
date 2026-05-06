@@ -102,4 +102,37 @@
       }
     });
   });
+
+    /* ---------- Live clock ---------- */
+  const hourHand   = document.querySelector(".hand-hour");
+  const minuteHand = document.querySelector(".hand-minute");
+  const secondHand = document.querySelector(".hand-second");
+
+  function updateClock() {
+    if (!hourHand) return;
+    const now = new Date();
+    const s = now.getSeconds();
+    const m = now.getMinutes() + s / 60;
+    const h = (now.getHours() % 12) + m / 60;
+
+    secondHand.style.transform = `translateX(-50%) rotate(${s * 6}deg)`;
+    minuteHand.style.transform = `translateX(-50%) rotate(${m * 6}deg)`;
+    hourHand.style.transform   = `translateX(-50%) rotate(${h * 30}deg)`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  /* ---------- Smooth scroll for nav anchors ---------- */
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.addEventListener("click", (e) => {
+      const href = a.getAttribute("href");
+      if (href.length > 1) {
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+    });
+  });
 })();
