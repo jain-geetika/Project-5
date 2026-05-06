@@ -1,10 +1,9 @@
 (function () {
   "use strict";
 
-  /* ---------- Tooltip system ---------- */
+
   const tooltip = document.getElementById("tooltip");
 
-  // Any element with data-tip OR data-title gets a tooltip
   const tipTargets = document.querySelectorAll("[data-tip], [data-title]");
 
   function buildTipHTML(el) {
@@ -45,12 +44,12 @@
       showTooltip(el, x, y);
     });
     el.addEventListener("mousemove", (e) => {
-      // Smoothly track cursor for a more responsive feel
+      
       showTooltip(el, e.clientX, e.clientY - 6);
     });
     el.addEventListener("mouseleave", hideTooltip);
 
-    // Keyboard accessibility
+   
     el.addEventListener("focus", () => {
       const rect = el.getBoundingClientRect();
       showTooltip(el, rect.left + rect.width / 2, rect.top);
@@ -58,11 +57,11 @@
     el.addEventListener("blur", hideTooltip);
   });
 
-  // Hide tooltip when scrolling/resizing
+
   window.addEventListener("scroll", hideTooltip, { passive: true });
   window.addEventListener("resize", hideTooltip);
 
-  /* ---------- Smooth scroll for nav anchors ---------- */
+
   document.querySelectorAll('a[href^="#"]').forEach((a) => {
     a.addEventListener("click", (e) => {
       const href = a.getAttribute("href");
@@ -76,12 +75,11 @@
     });
   });
 
-  /* ---------- Touch: tap a hotspot once to preview, twice to navigate ---------- */
-  // Lets mobile/tablet users see the description before being whisked away.
+
   let lastTapped = null;
   document.querySelectorAll(".hotspot").forEach((el) => {
     el.addEventListener("click", (e) => {
-      // If the device supports hover, let click behave normally.
+     
       if (window.matchMedia("(hover: hover)").matches) return;
 
       if (lastTapped !== el) {
@@ -89,21 +87,21 @@
         lastTapped = el;
         const rect = el.getBoundingClientRect();
         showTooltip(el, rect.left + rect.width / 2, rect.top);
-        // Auto-clear after a moment so a fresh tap re-previews
+        
         clearTimeout(el._tapTimer);
         el._tapTimer = setTimeout(() => {
           lastTapped = null;
           hideTooltip();
         }, 2200);
       } else {
-        // second tap → navigate
+        
         lastTapped = null;
         hideTooltip();
       }
     });
   });
 
-    /* ---------- Live clock ---------- */
+    
   const hourHand   = document.querySelector(".hand-hour");
   const minuteHand = document.querySelector(".hand-minute");
   const secondHand = document.querySelector(".hand-second");
@@ -122,7 +120,7 @@
   updateClock();
   setInterval(updateClock, 1000);
 
-  /* ---------- Smooth scroll for nav anchors ---------- */
+ 
   document.querySelectorAll('a[href^="#"]').forEach((a) => {
     a.addEventListener("click", (e) => {
       const href = a.getAttribute("href");
